@@ -32,6 +32,21 @@ void makeLinkedList(Node* listHead) {
 	}
 }
 
+Node* iterSearchKthNode(Node* listHead, int k) {
+	Node* startNode = listHead;
+	Node* kthNode = listHead;
+
+	for(int i=0; i<k; i++) {
+		kthNode = kthNode->next;
+	}
+
+	while(kthNode != NULL) {
+		kthNode = kthNode->next;
+		startNode = startNode->next;
+	}
+	return startNode;
+}
+
 void searchKthNode(Node* current, int k){
 
 	if(current->next == NULL) {
@@ -56,4 +71,7 @@ int main() {
 	searchKthNode(head, 2);
 
 	printf("\nresult = %d\n", kthNode->data);
+
+	Node* iterResult = iterSearchKthNode(head, 5);
+	printf("\niter Result = %d\n", iterResult->data);
 }
