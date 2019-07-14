@@ -38,18 +38,14 @@ node* makeTree(int start, int end, int* treeArray) {
 
 // findNode function segmentation error! -> return value adjustment
 node* findNode(node* root, int searchData) {
-	cout << "temp root data = "<< root->data << ", want to search = "<<searchData <<"\n";
 	if(root == NULL) return NULL;
 	if(root->data == searchData) return root;
-	else {
-		node* leftRoot = findNode(root->left, searchData);
-		node* rightRoot = findNode(root->right, searchData);
+	node* leftRoot = findNode(root->left, searchData);
+	node* rightRoot = findNode(root->right, searchData);
 
-		if(leftRoot != NULL) return leftRoot;
-		else if(rightRoot != NULL) return rightRoot;
-		else return NULL;
-	}
-//	cout <<"\tleft = " << leftRoot <<", right = "<<rightRoot <<"\n";
+	if(leftRoot == NULL && rightRoot == NULL) return NULL;
+	else if(rightRoot != NULL) return rightRoot;
+	else return leftRoot;
 
 }
 
@@ -70,7 +66,7 @@ node* findCommonAncestor(node* root, node* p, node* q) {
 	else if(root->data == q->data) {
 		return q;
 	}
-	else if(isThere(root->left, p->data) && isThere(root->right, q->data)) {
+	else if(isThere(root->left, p->data) && isThere(root->left, q->data)) {
 		return findCommonAncestor(root->left, p, q);
 	}
 	else if(isThere(root->right, p->data) && isThere(root->right, q->data)) {
@@ -80,6 +76,7 @@ node* findCommonAncestor(node* root, node* p, node* q) {
 		return root;
 	}
 }
+
 
 int main(const int argc, const char* argv[]) {
 	
@@ -104,9 +101,8 @@ int main(const int argc, const char* argv[]) {
 	
 	node* first = findNode(root, p);
 	node* second = findNode(root, q);
-
 	node* ancestor = findCommonAncestor(root, first, second);
-
+	
 	if(ancestor != NULL) {
 		cout << "ancestor node's data = " << ancestor->data << "\n";
 	}
