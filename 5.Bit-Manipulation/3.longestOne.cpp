@@ -1,6 +1,7 @@
 // update just one bit making longest one values
 // input : 11011101111
 // output : 8
+// 편집거리 알고리즘으로 풀 수 있다. -> now, prev 변수 두고, 이전 값 저장하면서 현재 값 갱신
 #include <iostream>
 #include <cstring>
 #include <stdlib.h>
