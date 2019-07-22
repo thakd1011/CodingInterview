@@ -3,6 +3,8 @@
 
 #include <string>
 
+using namespace std;
+
 namespace REQUIREMENT{
 	enum {
 		QUESTION = 1,
@@ -19,9 +21,9 @@ class Customer {
 		Customer();
 		Customer(string name);
 		int getRequirement();
-		String getName();
+		string getName();
 		void setRequirement(int requirement);
-		void setName(string name)
+		void setName(string name);
 };
 
 #endif

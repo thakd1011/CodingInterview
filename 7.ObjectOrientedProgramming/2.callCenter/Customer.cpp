@@ -1,5 +1,6 @@
 #include "Customer.h"
 #include <string>
+using namespace std;
 
 Customer::Customer() {} //empty constructor
 

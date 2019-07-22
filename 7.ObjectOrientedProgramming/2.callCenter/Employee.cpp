@@ -1,7 +1,9 @@
 #include "Employee.h"
 
+using namespace std;
+
 Employee::Employee() {
-	this.status = true; // can calling
+	this->status = true; // can calling
 }
 
 Employee::Employee(int type, int work, bool status) {
