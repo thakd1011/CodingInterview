@@ -1,4 +1,6 @@
 #include "System.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -11,7 +13,7 @@ Employee* System::dispatchCall(Employee worker[], int max) {
 
 	for(int i=start; i<MAX_SIZE; i++) {
 		if(worker[i].getStatus() == true) {
-			return *worker[i];
+			return &worker[i];
 		}
 	}
 	
@@ -23,24 +25,24 @@ bool System::canSettle(Employee worker, Customer user) {
 	else return false;
 }
 
-void System::Calling(Employee worker[], Customer user, int workNum = 1) {
-	Employee *emp = dispatchCall(worker, workNum);
+void System::Calling(Employee worker[], Customer user, int workNum) {
+	Employee* emp = dispatchCall(worker, workNum);
 	int number;
 
 	if(emp != NULL) {
-		(*emp)->setStatus(false); // is calling
+		emp->setStatus(false); // is calling
 
 		cout << "[press the number what you want]" << endl;
 		cin >> number;
 
 		user.setRequirement(number);
 
-		if(canSettle(emp, user)) {
-			(*emp)->setStatus(true);
-			cout << "End Calling" << endl;
+		if(canSettle(*emp, user)) {
+			emp->setStatus(true);
+			cout << "End Calling\n";
 		}
 		else {
-			workToss(worker, emp, user);
+			workToss(worker, *emp, user);
 		}
 	}
 	else {
@@ -50,7 +52,8 @@ void System::Calling(Employee worker[], Customer user, int workNum = 1) {
 
 void System::workToss(Employee worker[], Employee tempWorker, Customer user) {
 	int work = tempWorker.getWork();
-
+	
+	cout << "recalling higher employee...\n";
 	tempWorker.setStatus(true);
 	Calling(worker, user, work + 1);
 }
@@ -64,22 +67,23 @@ int main() {
 	for(int i = 0; i < MAX_SIZE; i++) {
 		type = (i / divideSize) + 1;
 		switch(type) {
-			case CONTACTOR :
-				emp[i].setType(CONTACTOR);
-				emp[i].setWork(QUESTION);
+			case TYPE::CONTACTOR :
+				emp[i].setType(TYPE::CONTACTOR);
+				emp[i].setWork(WORK::QUESTION);
 				break;
-			case MANAGER :
-				emp[i].setType(MANAGER);
-				emp[i].setWork(COMPLAIN);
+			case TYPE::MANAGER :
+				emp[i].setType(TYPE::MANAGER);
+				emp[i].setWork(WORK::COMPLAIN);
 				break;
-			case VIEWER :
-				emp[i].setType(VIEWER);
-				emp[i].setWork(INNOVATION);
+			case TYPE::VIEWER :
+				emp[i].setType(TYPE::VIEWER);
+				emp[i].setWork(WORK::INNOVATION);
 				break;
 		}
 	}
 
-	Customer user = new Customer("Somang");
+	Customer *user = new Customer("Somang");
+	System *sys = new System();
 	
-	Calling(emp, user);
+	sys->Calling(emp, *user, 1);
 }

@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <string>
 
+using namespace std;
+
 class System{
 	private :
 		Employee emp[MAX_SIZE];
