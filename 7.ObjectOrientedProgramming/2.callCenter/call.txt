@@ -1,0 +1,83 @@
+콜센터 직원 구성 : 고객 응대 담당자, 관리자, 감독관
+1) 콜 센터로 오는 전화는 먼저 상담이 가능한 고객 응대 담당자로 연결
+2) 고객응대 담당자가 처리할 수 없는 전화는 관리자로 연결된다
+3) 관리자가 처리할 수 없는 전화는 감독관으로 연결된다
+
+# 이 문제를 풀기 위한 자료구조를 설계하라.
+# 응대 가능한 첫 번째 직원에게 전화를 연결시키는 dispatchCall()메서드를 구현하라.
+
+콜 센터 직원Employee class를 구현한다 -> 이들의 공통 속성 : 이름, 상태(전화 연결 가능한지)
+객체는 담당자, 관리자, 감독관 셋으로 이루어져 있다 -> class로 따로 구현 => 같은 클래스 내에서? 아니면 상속받도록? => 같은 헤더 아래에 서로 다른 클래스로 구성하도록 하자.
+
+Employee class는 세 가지 종류의 직원들의 정보 접근을 위한 함수를 구현
+
+[프로그램 수행 단계 설정]
+
+콜센터 직원 / 통화시스템 / 고객 세 가지로 구성된다
+
+0. 고객이 요청할 수 있는 조건 3가지 : 1. 간단한 문의 2. 컴플레인 3. 정책개선
+1. 고객이 전화를 건다
+
+2. 응대 가능한 첫 번째 직원을 찾는다 (시스템 내에서 처리)
+	1) 고객 응대 담당자가 있다면 우선적으로 연결
+	2) 고객 응대 담당자가 모두 통화중이라면 관리자 연결
+	3) 관리자도 통화중이라면 감독관으로 연결
+	4) 해결할 수 있는 문제에 따라서 단계를 다르게 연결한다.
+3. 고객이 원하는 종류의 번호를 입력한다.
+4. 해결할 수 있는 문제인지 확인한다.
+	1) 해결할 수 있는 문제라면 해결하고 통화 종료
+	2) 해결할 수 없는 문제라면 상위 담당자에게 연결하고 통화 종료
+=============여기까지만 구현해도 됨=========================
+5. 직원에게 전화를 연결한다. (직원은 전화를 받는다)
+6. 문제해결 후 통화를 종료한다.
+
+[구현]
+
+1. Employee.h 선언
+	1) class : customerContact, Manager, viewer -> 합쳐서 Employee로 선언
+	2) variable & function
+		a) private
+			- int type :: 1, 2, 3 (using namespace enum{customerContact(1), Manager, viewer})
+			- int work :: 1, 2, 3 (namespace enum {question, complain, innovation})
+			- bool status :: true(can calling), false(can't calling)
+		b) public
+			- constructor : Employee(int type, int work, bool status), Employee()
+			- bool getStatus()
+			- int getType()
+			- int getWork()
+			- void setStatus(bool status)
+
+2. Customer.h 선언
+	1) class : Customer로 선언
+	2) variable & function
+		a) private
+			- String name;
+			- int requirement; :: 1, 2, 3 (namespace enum {question, complain, innovation})
+		b) public
+			- constructor : Customer(String name), Customer()
+			- int getRequirement()
+			- String getName()
+			- void setRequirement(int requirement)
+			- void setName(String name)
+
+3. System.h 선언
+	1) class : System으로 선언, Employee.h, Customer.h 헤더 포함
+	2) variable & function
+		a) private
+			- Employee emp[MAX_SIZE];
+		b) public
+			- constructor : System() {setting employee array, 1/3씩 나눠서 선언}
+			- int dispatchCall(Employee worker[], int max) // emp 중 통화 가능한 직원의 인덱스 리턴, 불가능하면 -1 리턴
+			- bool canSettle(Employee worker, Customer user) // 고객 요구사항을 대응할 수 있는지 확인
+			- void Calling(Employee worker, Customer user)
+				* dispatched worker 상태 false로 변경
+				* 고객 요구사항 입력받아서 user requirement에 저장
+				* canSettle 확인한다
+					# 해결가능 : 통화 종료(worker.setStatus(false)) & cout
+					# 해결불가능 : 상급자에게 workToss!
+			- void workToss(Employee worker, Customer user)
+				* 현재 직원의 직급 확인
+				* 현재 직원 상태 true로 변경
+				* 현재보다 높은 직급의 직원으로 calling 다시 연결
+
+
