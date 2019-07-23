@@ -17,10 +17,11 @@
 		d) void increaseCellValue(int row, int col) {
 			cellArr[row][col].increaseValue();			
 			}
-		e) setBombCnt(int cnt) {
+		e) void setBombCnt(int cnt) {
 			this.bombCnt = cnt;
 			}
 		f) bool allCellChecked();
+		g) void getBombCnt(); 
 
 
 
@@ -40,6 +41,7 @@
 		D) void inscreaseValue() {this.value++;}
 		E) bool isClicked();
 		F) bool isBomb();
+		G) void changeFlaged(); // flag true->false, false->true
 
 
 3. User
