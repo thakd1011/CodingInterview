@@ -1,0 +1,73 @@
+1. Class Panel
+	1) 변수
+		a) pair direction[8]
+		b) Cell cellArr[N][N]; // N = 10
+		c) int bombCnt;
+	2) 메소드
+		a) 생성자 - Panel() {
+			direction = {(1,0), (1, -1), (1, 1)....};
+			Cell array initialize; -> all cell value = 0; }
+		b) void showDisplay() { ... }; // print all cell value;
+		c) void setBombAround(int row, int col) {
+			setBomb(true);
+			for(i = 0:8) {
+				increaseCellValue(row + dir[i].first, col + dir[i].second) 
+				} 
+			}
+		d) void increaseCellValue(int row, int col) {
+			cellArr[row][col].increaseValue();			
+			}
+		e) setBombCnt(int cnt) {
+			this.bombCnt = cnt;
+			}
+
+
+
+2. Class Cell
+	1) 변수
+		a) bool flag
+		b) bool check
+		c) bool bomb
+		d) int value
+
+	2) method
+		A) Cell() {default = false, false, false, 0}
+		B) get function
+			a) get flag, check, bomb, value -> 전부 ^^....
+		C) set function
+			a) set flag, check, bomb, value -> 전부 ^^....
+		D) inscreaseValue() {this.value++;}
+
+
+3. User
+	1) 변수 - 필요없음
+	2) method
+		A) pair click() {
+			pair p = {0, 0};
+			cin >> row, col;
+			p.first, second = r, c;
+			return p
+			}
+
+
+4. Game
+	1) 변수
+		a) int flagCnt;
+	2) method 
+		a) void initialize() // panel 초기화
+		b) void showDisplay() // panel bool check -> show
+		c) void gameStart() // while (user.click());
+		d) 
+
+
+
+
+
+
+
+
+
+
+
+
+
