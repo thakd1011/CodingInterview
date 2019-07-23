@@ -18,11 +18,14 @@ class Panel{
 	public :
 		Panel();
 		void setBombCnt(int cnt);
+		void setPanelSize(int n);
 		void getBombCnt();
+		void initPanel();
 		void showDisplay();
 		bool allCellChecked();
 		void setInitBombAround(int row, int col);
 		void increaseCellValue(int row, int col);
+		bool isInPanel(int row, int col);
 };
 
 #endif

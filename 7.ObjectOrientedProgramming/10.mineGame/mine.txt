@@ -21,7 +21,9 @@
 			this.bombCnt = cnt;
 			}
 		f) bool allCellChecked();
-		g) void getBombCnt(); 
+		g) void getBombCnt();
+		h) void setPanelSize(int n);
+		i) void initPanel();
 
 
 
