@@ -8,7 +8,7 @@
 			direction = {(1,0), (1, -1), (1, 1)....};
 			Cell array initialize; -> all cell value = 0; }
 		b) void showDisplay() { ... }; // print all cell value;
-		c) void setBombAround(int row, int col) {
+		c) void setInitBombAround(int row, int col) {
 			setBomb(true);
 			for(i = 0:8) {
 				increaseCellValue(row + dir[i].first, col + dir[i].second) 
@@ -20,6 +20,7 @@
 		e) setBombCnt(int cnt) {
 			this.bombCnt = cnt;
 			}
+		f) bool allCellChecked();
 
 
 
@@ -36,7 +37,9 @@
 			a) get flag, check, bomb, value -> 전부 ^^....
 		C) set function
 			a) set flag, check, bomb, value -> 전부 ^^....
-		D) inscreaseValue() {this.value++;}
+		D) void inscreaseValue() {this.value++;}
+		E) bool isClicked();
+		F) bool isBomb();
 
 
 3. User
@@ -53,11 +56,13 @@
 4. Game
 	1) 변수
 		a) int flagCnt;
+		b) pair direction[8];
 	2) method 
 		a) void initialize() // panel 초기화
 		b) void showDisplay() // panel bool check -> show
 		c) void gameStart() // while (user.click());
-		d) 
+		d) void searchEdgeCell(Cell cell, pair location); // eight direction search (recursive, dfs)
+		e) bool terminationCondition(); // check flagCnt == Panel.bombCnt
 
 
 
