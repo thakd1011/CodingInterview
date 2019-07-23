@@ -59,12 +59,13 @@
 	1) 변수
 		a) int flagCnt;
 		b) pair direction[8];
+		c) Panel panel;
+		d) User user;
 	2) method 
 		a) void initialize() // panel 초기화
-		b) void showDisplay() // panel bool check -> show
-		c) void gameStart() // while (user.click());
-		d) void searchEdgeCell(Cell cell, pair location); // eight direction search (recursive, dfs)
-		e) bool terminationCondition(); // check flagCnt == Panel.bombCnt
+		b) void gameStart() // while (user.click());
+		c) void searchEdgeCell(pair location); // eight direction search (recursive, dfs)
+		d) bool terminationCondition(); // check flagCnt == Panel.bombCnt
 
 
 
