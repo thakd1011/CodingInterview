@@ -12,10 +12,12 @@ namespace SELECTNUM {
 	};
 }
 
+// prototyping
+class Panel;
+class User;
+
 class Game{
 	private :
-		int direction[8][2];
-		int flagCnt;
 		Panel *panel;
 		User *user;
 	

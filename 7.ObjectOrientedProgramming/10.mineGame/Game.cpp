@@ -4,20 +4,10 @@
 
 using namespace std;
 
-/*
-namespace SELECTNUM {
-	enum {
-		CLICK,
-		FLAG
-	};
-}
-*/
-
 Game::Game() {
-	direction = { {1, -1}, {1, 0}, {1, -1}, {0, -1}, {0, 1}, {-1, -1}, {-1, 0}, {-1, 1} };
-	this.flagCnt = 0;
-	this.panel = new Panel();
-	this.User = new User();
+	this->flagCnt = 0;
+	this->panel = new Panel();
+	this->user = new User();
 }
 
 // game initial setting
@@ -29,22 +19,23 @@ void Game::initialize() {
 	cout << "push n for mineSweeper panels' size\n";
 	cin >> n;
 	
-	panel.setPanelSize(n);
-	panel.initPanel();
+	panel->setPanelSize(n);
+	panel->initPanel();
+	panel->showDisplay();
 
 	cout << "push Bomb count for initSetting\n";
 	cin >> bombCnt;
 
 	// set bomb location and around bomb count
-	panel.setBombCnt(bombCnt);
-	panel.showDisplay();
+	panel->setBombCnt(bombCnt);
+	panel->showDisplay();
 
 	cout << "select " << bombCnt << " bomb location\n";
 	for(int i = 0; i < bombCnt; i++) {
 		cout << "input (row, col)\n";
 		cin >> tempRow >> tempCol;
 
-		panel.setInitBombAround(tempRow, tempCol);
+		panel->setInitBombAround(tempRow, tempCol);
 	}
 }
 
@@ -55,41 +46,40 @@ void Game::gameStart() {
 	
 	while( terminationCondition() == false ){
 		do{
-			selectLocation = user.click();
+			selectLocation = user->click();
 
 			userRow = selectLocation.first;
 			userCol = selectLocation.second;
 
-		}while( !panel.isInPanel(userRow, userCol) )
+		}while( !panel->isInPanel(userRow, userCol) );
 	
 		cout << "choose flag(1) or click(0)\n";
 		cin >> selectNum;
 
 		switch(selectNum) {
 			case SELECTNUM::CLICK :
-				if( !canClick() ) {
+				if( !canClick(userRow, userCol) ) {
 					cout << "You can't click this cell\n";
 				}
 				else {
-					if( panel.isBomb(userRow, userCol) ) {
-						panel.showDisplay();
+					if( panel->isBomb(userRow, userCol) ) {
+						panel->showDisplay();
 						gameEnd(0); // lose
 					}
 
 					// not bomb!
-					panel.checkBoundaryCell(userRow, userCol);
-					panel.showDisplay();
+					panel->checkCellBoundary(userRow, userCol);
+					panel->showDisplay();
 				}
 				break;
 
 			case SELECTNUM::FLAG :
-				if( panel.isChecked() ) {
+				if( panel->isChecked(userRow, userCol) ) {
 					cout << "It was checked!\n";
 				}
 				else {
-					flagCnt++;
-					panel.changeFlaged(userRow, userCol);
-					panel.showDisplay();
+					panel->changeFlaged(userRow, userCol);
+					panel->showDisplay();
 				}
 
 				break;
@@ -102,7 +92,7 @@ void Game::gameStart() {
 }
 
 bool Game::canClick(int row, int col) {
-	if( !panel.isFlag(row, col) && !panel.isChecked(row, col) ) {
+	if( !panel->isFlag(row, col) && !panel->isChecked(row, col) ) {
 		return true;
 	}
 	else {
@@ -112,12 +102,12 @@ bool Game::canClick(int row, int col) {
 
 // All Cell check && flag count == bomb count, 
 bool Game::terminationCondition() {
-	if( !panel.allCellChecked() ) {
+	if( !panel->allCellChecked() ) {
 		return false;
 	}
 	else {
-		if(flagCnt > panel.getBombCnt() ) {
-			cout << "You must release" << flagCnt - panel.getBombCnt() << " flag, and choose cell you click\n";
+		if( panel->getFlagCnt() > panel->getBombCnt() ) {
+			cout << "You must release flag, and choose cell you click\n";
 			return false;
 		}
 		else {
@@ -135,4 +125,5 @@ void Game::gameEnd(int winLose) {
 	}
 	delete panel;
 	delete user;
+	exit(1);
 }
