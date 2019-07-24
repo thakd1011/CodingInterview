@@ -4,6 +4,8 @@
 #include <utility>
 #include "Game.h"
 
+using namespace std;
+
 class User{
 	public :
 		User();
