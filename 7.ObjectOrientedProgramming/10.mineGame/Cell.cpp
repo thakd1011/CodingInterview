@@ -1,44 +1,44 @@
 #include "Cell.h"
 
 Cell::Cell() {	
-	this.flag = false;
-	this.check = false;
-	this.bomb = false;
-	this.value = 0;
+	this->flag = false;
+	this->check = false;
+	this->bomb = false;
+	this->value = 0;
 }
 
 Cell::~Cell() {}
 
 bool Cell::getFlag(){
-	return this.flag;
+	return this->flag;
 }
 
 bool Cell::getCheck(){
-	return this.check;
+	return this->check;
 }
 
 bool Cell::getBomb(){
-	return this.bomb;
+	return this->bomb;
 }
 
 int Cell::getValue(){
-	return this.value;
+	return this->value;
 }
 
 void Cell::setFlag(bool flag){
-	this.flag = flag;
+	this->flag = flag;
 }
 
 void Cell::setCheck(bool check){
-	this.check = check;
+	this->check = check;
 }
 
 void Cell::setBomb(bool bomb){
-	this.bomb = bomb;
+	this->bomb = bomb;
 }
 
 void Cell::setValue(int value){
-	this.value = value;
+	this->value = value;
 }
 
 void Cell::increaseValue(){
