@@ -3,17 +3,9 @@
 
 using namespace std;
 
-Panel::Panel() {
-	direction = { {1, -1}, {1, 0}, {1, -1}, {0, -1}, {0, 1}, {-1, -1}, {-1, 0}, {-1, 1} };
-}
+Panel::Panel() {}
 
-Panel::~Panel() {
-	for(int i = 0; i < panelSize; i++) {
-		for(int j = 0; j < panelSize; j++) {
-			delete cellArr[i][j];
-		}
-	}
-}
+Panel::~Panel() {}
 
 void Panel::setBombCnt(int cnt) {
 	bombCnt = cnt;
@@ -25,6 +17,10 @@ void Panel::setPanelSize(int n) {
 
 int Panel::getBombCnt() {
 	return bombCnt;
+}
+
+int Panel::getFlagCnt() {
+	return flagCnt;
 }
 
 void Panel::initPanel() {
@@ -46,7 +42,7 @@ void Panel::setInitBombAround(int row, int col) {
 		tempCol = col + direction[i][1];
 
 		if( isInPanel(tempRow, tempCol) ) {
-			if( !cellArr[tempRow][tempCol].isBomb() ) {
+			if( cellArr[tempRow][tempCol].getBomb() == false) {
 				cellArr[tempRow][tempCol].increaseValue();
 			}
 		}
@@ -56,10 +52,17 @@ void Panel::setInitBombAround(int row, int col) {
 
 
 void Panel::showDisplay() {
+	cout << "  ";
 	for(int i = 0; i < panelSize; i++) {
+		cout << i << " ";
+	}
+	cout <<"\n";
+
+	for(int i = 0; i < panelSize; i++) {
+		cout << i << " ";
 		for(int j = 0; j < panelSize; j++) {			
-			if( !cellArr[i][j].isClicked() ) {
-				if( cellArr[i][j].getFlag() ) {
+			if( cellArr[i][j].getCheck() == false) {
+				if( cellArr[i][j].getFlag() == true ) {
 					cout << "f";
 				}
 				else {
@@ -67,7 +70,7 @@ void Panel::showDisplay() {
 				}
 			}
 			else {
-				if( cellArr[i][j].isBomb() ) {
+				if( cellArr[i][j].getBomb() == true ) {
 					cout << "B";
 				}
 				else {
@@ -89,22 +92,29 @@ void Panel::increaseCellValue(int row, int col) {
 	if( isInPanel(row, col) ){
 		cellArr[row][col].increaseValue();
 	}
-	else {
-		cout << "it is out of range!\n";
-	}
+}
+
+void Panel::increaseFlagCnt() {
+	flagCnt++;
+}
+
+void Panel::decreaseFlagCnt() {
+	flagCnt--;
 }
 
 void Panel::changeFlaged(int row, int col) {
 	if( cellArr[row][col].getFlag() == true ) {
 		cellArr[row][col].setFlag(false);
+		decreaseFlagCnt();
 	}
 	else {
 		cellArr[row][col].setFlag(true);
+		increaseFlagCnt();
 	}
 }
 
 void Panel::checkCellBoundary(int row, int col) {
-	if( !isInPanel(row, col) || isChecked(row, col) || isBomb(row, col) || isFlaged(row, col) ) {
+	if( !isInPanel(row, col) || isChecked(row, col) || isBomb(row, col) || isFlag(row, col) ) {
 		return;
 	}
 	
@@ -123,7 +133,7 @@ void Panel::checkCellBoundary(int row, int col) {
 bool Panel::allCellChecked() {
 	for(int i = 0; i < panelSize; i++) {
 		for(int j = 0; j < panelSize; j++) {
-			if( !cellArr[i][j].getCheck() || !cellArr[i][j].getFlag()) {
+			if( !cellArr[i][j].getCheck() && !cellArr[i][j].getFlag()) {
 				return false;
 			}
 		}
@@ -134,7 +144,6 @@ bool Panel::allCellChecked() {
 
 bool Panel::isInPanel(int row, int col) {
 	if(row < 0 || col < 0 || row >= panelSize || col >= panelSize) {
-		cout << "out of range! Reselect Plz\n";
 		return false;
 	}
 	else {
