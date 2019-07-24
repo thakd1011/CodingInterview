@@ -7,6 +7,8 @@ Cell::Cell() {
 	this.value = 0;
 }
 
+Cell::~Cell() {}
+
 bool Cell::getFlag(){
 	return this.flag;
 }
@@ -41,31 +43,4 @@ void Cell::setValue(int value){
 
 void Cell::increaseValue(){
 	value += 1;
-}
-
-bool Cell::isClicked(){
-	if(click) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Cell::isBomb(){
-	if(bomb) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-void Cell::changeFlaged(){
-	if(flag) {
-		flag = false;
-	}
-	else {
-		flag = true;
-	}
 }

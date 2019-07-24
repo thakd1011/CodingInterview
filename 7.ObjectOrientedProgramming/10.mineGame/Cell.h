@@ -10,6 +10,7 @@ class Cell{
 
 	public :
 		Cell();
+		~Cell();
 		bool getFlag();
 		bool getCheck();
 		bool getBomb();
@@ -21,11 +22,6 @@ class Cell{
 		void setValue(int value);
 
 		void increaseValue();
-
-		bool isClicked();
-		bool isBomb();
-		
-		void changeFlaged(); // true->false | false->true
 };
 
 #endif
