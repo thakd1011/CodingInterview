@@ -6,6 +6,8 @@
 
 class User{
 	public :
+		User();
+		~User();
 		pair<int, int> click();
 };
 #endif
