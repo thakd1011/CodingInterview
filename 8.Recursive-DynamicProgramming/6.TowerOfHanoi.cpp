@@ -14,7 +14,53 @@
 
 using namespace std;
 
-stack<int> s1, s2, s3;
+stack<int> s;
+
+const void diskMove(int n, int from, int mid, int to) {
+	cout << "disk " << n << " move from " << from << " to " << to << "\n";
+}
+
+const void stack_hanoi(int n, int from, int mid, int to) {
+	int flag = 1;
+
+	do{
+		while(n > 1) {
+			s.push(to);
+			s.push(mid);
+			s.push(from);
+			s.push(n);
+			n--;
+			s.push(to);
+			to = mid;
+			mid = s.top();
+			s.pop();
+		}
+		
+		diskMove(n, from, mid, to);
+
+		if(!s.empty()) {
+			n = s.top();
+			s.pop();
+			from = s.top();
+			s.pop();
+			mid = s.top();
+			s.pop();
+			to = s.top();
+			s.pop();
+			
+			diskMove(n, from, mid, to);
+
+			n--;
+			s.push(from);
+			from = mid;
+			mid = s.top();
+			s.pop();
+		}
+		else {
+			flag = 0;
+		}
+	}while(flag == 1);
+}
 
 // recursive
 const void reHanoiTower(int n, int from, int mid, int to) {
@@ -38,4 +84,8 @@ int main() {
 
 	// recursive
 	reHanoiTower(N, 1, 2, 3);
+
+	// using three stacks
+	cout << "\n\n======stack hanoi=====\n";
+	stack_hanoi(N, 1, 2, 3);
 }
