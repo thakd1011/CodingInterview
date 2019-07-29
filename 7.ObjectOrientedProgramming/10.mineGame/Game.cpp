@@ -5,7 +5,6 @@
 using namespace std;
 
 Game::Game() {
-	this->flagCnt = 0;
 	this->panel = new Panel();
 	this->user = new User();
 }
